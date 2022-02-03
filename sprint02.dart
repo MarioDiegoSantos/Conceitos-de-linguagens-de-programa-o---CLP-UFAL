@@ -40,7 +40,7 @@ class Pagamentos {
     print("****************************************");
   }
 
-  //sprint 02
+  //sprint 02  Caso de uso Agendar pagamento
 
   void agendarPagamento() {
     print('Nome do cliente: ${nome_cliente}');
