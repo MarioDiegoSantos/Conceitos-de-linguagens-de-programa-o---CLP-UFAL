@@ -1,9 +1,10 @@
-
 class Pagamentos {
 // implementação do caso de uso gerar boleto
-   late String nome_cliente;
-   late int num_boleto;
-   late double num_valor;
+  late String nome_cliente;
+  late int num_boleto;
+  late double num_valor;
+  late String data_pagamento;
+  late String data_vencimento;
 
   String get nome => nome_cliente;
   void set nome(String value) => nome_cliente = value;
@@ -11,9 +12,10 @@ class Pagamentos {
   int get boleto => num_boleto;
   void set boleto(int value) => num_boleto = value;
 
-  double get  valor => num_valor;
-  void set valor (double value) =>  num_valor = value;
+  double get valor => num_valor;
+  void set valor(double value) => num_valor = value;
 
+  //sprint 01
   void pagarboleto() {
     print('Nome do cliente: ${nome_cliente}');
     print('Valor do boleto: ${num_valor}');
@@ -21,6 +23,7 @@ class Pagamentos {
     print("Pagamento do boleto efetuado com sucesso!");
     print("****************************************");
   }
+
   void gerarboleto() {
     print('Nome do cliente: ${nome_cliente}');
     print('Valor do boleto: ${num_valor}');
@@ -37,10 +40,20 @@ class Pagamentos {
     print("****************************************");
   }
 
+  //sprint 02  Caso de uso Agendar pagamento
+
+  void agendarPagamento() {
+    print('Nome do cliente: ${nome_cliente}');
+    print('Valor do boleto: ${num_valor}');
+    print('Número do boleto: ${num_boleto}');
+    print('Número do boleto: ${data_pagamento}');
+    print('Número do boleto: ${data_vencimento}');
+    print("Agendamento do pagamento feito com sucesso!");
+    print("****************************************");
+  }
 }
 
 void main() {
-
   Pagamentos cliente = new Pagamentos();
   cliente.nome = 'Rafael';
   cliente.boleto = 0001;
@@ -54,9 +67,10 @@ void main() {
   cliente.pagarboleto();
   cliente.gerarboleto();
   cliente.imprimirboleto();
+  cliente.agendarPagamento();
 
   cliente2.pagarboleto();
   cliente2.gerarboleto();
   cliente2.imprimirboleto();
-
+  cliente2.agendarPagamento();
 }
