@@ -8,21 +8,19 @@ Random _rnd = Random();
 
 String getRandomString(int length) => String.fromCharCodes(Iterable.generate(
     length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
-
 // Bascimante estamos pegando todos os elementos da constante, unidos em uma só, e pegando um indice aleatorio dessa constante.
 
 class Pagamentos {
   var now = new DateTime.now();
-// implementação do caso de uso gerar boleto
   late String agencia_cliente;
   late String nome_cliente;
   late String conta_cliente;
   late String cpf_cliente;
 
-  late int num_boleto;
   late double num_valor;
   late double num_saldo;
-  late double num_limite;
+  late double num_limite_debito;
+  late double num_limite_credito;
 
   String get nome => nome_cliente;
   void set nome(String value) => nome_cliente = value;
@@ -36,17 +34,17 @@ class Pagamentos {
   String get cpf => cpf_cliente;
   void set cpf(String value) => cpf_cliente = value;
 
-  int get boleto => num_boleto;
-  void set boleto(int value) => num_boleto = value;
-
   double get valor => num_valor;
   void set valor(double value) => num_valor = value;
 
   double get saldo => num_saldo;
   void set saldo(double value) => num_saldo = value;
 
-  double get limite => num_limite;
-  void set limite(double value) => num_limite = value;
+  double get limite_debito => num_limite_debito;
+  void set limite(double value) => num_limite_debito = value;
+
+  double get limite_credito => num_limite_credito;
+  void set limite_credito(double value) => num_limite_credito = value;
 
   void pagarboleto(int dia, List<int> number, double valor) {
     num_saldo -= num_valor;
@@ -87,11 +85,18 @@ class Pagamentos {
     print('Banco: Oxebank');
     print("****************************************");
   }
+
+  void pagarcredito() {
+    print('Nome do cliente: ${nome_cliente}');
+    print('Valor do crédito: ${num_valor}');
+    print("Saldo apos o pagamento: ${num_saldo - num_valor}");
+    print("****************************************");
+  }
 }
 
 void deposito(Pagamentos cliente) {
   bool aux = false;
-  int escolha, i;
+  int escolha;
   var rng = new Random();
   var l = new List.generate(11, (_) => rng.nextInt(9));
 
@@ -155,6 +160,7 @@ void pagamento(Pagamentos cliente) {
 
   print('Pix => [1]');
   print('Boleto => [2]');
+  print('Credito => [3]');
 
   int escolha_pagamento = int.parse(stdin.readLineSync()!);
   if (escolha_pagamento == 1) {
@@ -177,7 +183,7 @@ void pagamento(Pagamentos cliente) {
       else
         cliente.pagarpix(aux);
     }
-  } else {
+  } else if (escolha_pagamento == 2) {
     print('Agendar => [1]');
     print('Agora => [2]');
 
@@ -197,6 +203,13 @@ void pagamento(Pagamentos cliente) {
       else
         cliente.pagarboleto(0, l, cliente.valor);
     }
+  } else if (escolha_pagamento == 3) {
+    print('Quanto você quer pagar no Crédito?');
+    cliente.num_valor = double.parse(stdin.readLineSync()!);
+    if (cliente.num_valor > cliente.limite_credito)
+      print('você não pode fazer esse pagamento, pois ultrapassou seu limite!');
+    else
+      cliente.pagarcredito();
   }
 }
 
@@ -213,6 +226,7 @@ void main() {
   cliente.valor = 0;
   cliente.saldo = 100;
   cliente.limite = -100;
+  cliente.limite_credito = 500;
   cliente.agencia = '001';
   cliente.conta = '0010020-0';
   cliente.cpf = '321.879.674-63';
@@ -229,7 +243,6 @@ void main() {
     3 - Pagar boleto.
     4 - Deposito
     5 - Sair do programa.
-
   */
 
   while (true) {
